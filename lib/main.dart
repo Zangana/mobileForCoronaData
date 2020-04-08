@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
             RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-                text: cases == "cases" ? "${data['cases']}" : cases == "deaths" ? "${data['deaths']}" : "${data['recovered']}" ,
+                text: cases == "cases" ? addComma(data['cases']) : cases == "deaths" ? addComma(data['deaths']) : addComma(data['recovered']),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 35,
@@ -267,5 +267,12 @@ class _HomePageState extends State<HomePage> {
     }
     key = keys.current;
     return key;
+  }
+
+  String addComma(int number){
+    RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+    Function mathFunc = (Match match) => '${match[1]},';
+    String result = number.toString().replaceAllMapped(reg, mathFunc);
+    return result;
   }
 }

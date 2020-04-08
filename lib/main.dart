@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async'; 
+import 'dart:async';
+import './secondpage.dart' as secondPage;
 
 
 void main(){
@@ -52,9 +53,6 @@ class _HomePageState extends State<HomePage> {
           builder: (context, snapshot) {
             if(snapshot.hasData){
               return Container(
-        // padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        // height: 150,
-        // width: double.maxFinite,
         color: Colors.grey,
         child: ListView.builder(
           itemCount: data.length,
@@ -126,7 +124,49 @@ class _HomePageState extends State<HomePage> {
       return CircularProgressIndicator();
       },
       ),
+      drawer: buildDrawer(),
     );
+  }
+
+  Widget  buildDrawer(){
+     return Drawer(
+       child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text("ئاماری راستەوخۆی ڤایرۆسی کۆرۆنا",
+                textDirection: TextDirection.rtl,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.green,
+              ),
+            ),
+            ListTile(
+              title: Text("Next Page",
+              style: TextStyle(fontSize: 25.0),
+              ),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: (){
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (BuildContext context) => new secondPage.SecondScreen()),
+                );
+              },
+            ),
+            ListTile(
+              title: Text("about",
+                        style: TextStyle(fontSize: 25.0),
+                      ),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: (){Navigator.pop(context);},
+            )
+          ],
+        ),
+      );
   }
 
     Widget iconsType(String icon){

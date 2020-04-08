@@ -12,6 +12,7 @@ class SecondScreen extends StatelessWidget{
           "ئاماری ڤایرۆسی کۆرۆنا",
           style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25 ),
         ),
+        leading: Icon(Icons.menu),
       ),
     );
   }

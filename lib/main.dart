@@ -1,9 +1,16 @@
 import 'dart:convert';
+import 'package:coronadatamobile/connectiontoapi.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import './secondpage.dart' as secondPage;
-
+/**
+ * @Author Rawaz Rahim
+ * @Date: 4/9/2020
+ * A mobile application calls an API from Herokuapp website.
+ * And display the result to the user. 
+ */
+final String urlOfApi = "https://coronavirus-19-api.herokuapp.com/all";
 
 void main(){
   runApp(MaterialApp(
@@ -11,7 +18,6 @@ void main(){
 
   ));
 }
-
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,13 +27,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Map data;
   List kpiData;
-  Future getData() async {
-    final response = await http.get("https://coronavirus-19-api.herokuapp.com/all");
+  Future getData() async { // calling the link to get the JSON.
+    ConnectionsApi connUrl = new ConnectionsApi();
+    connUrl.setUrl = urlOfApi;
+    final response = await http.get(connUrl.getUrl);
     if (response.statusCode == 200){
      return data = json.decode(response.body);
     } else {
       debugPrint(response.body);
-      throw Exception ('Failed to load album');
+      throw Exception ('Failed to load data');
     }
   }
 
@@ -35,6 +43,11 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getData();
+    setState(() {
+      const time = const Duration(minutes: 2); // setting up the time
+      new Timer.periodic(time, (Timer t) => setState((){}));  // refreshing the data
+    });
+    
   }
 
   @override
@@ -128,7 +141,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget  buildDrawer(){
+  Widget  buildDrawer(){ // building the drawer on the left size. 
      return Drawer(
        child: ListView(
           padding: EdgeInsets.zero,
@@ -169,7 +182,7 @@ class _HomePageState extends State<HomePage> {
       );
   }
 
-    Widget iconsType(String icon){
+    Widget iconsType(String icon){ // return the icons based on the case.
     return Align(
       alignment: Alignment.topRight,
       child: icon == "cases" 
@@ -192,7 +205,7 @@ class _HomePageState extends State<HomePage> {
       );
   }
 
-  Widget caseAmount(String cases){
+  Widget caseAmount(String cases){ 
 
     return Align(
       alignment: Alignment.center,
@@ -210,30 +223,6 @@ class _HomePageState extends State<HomePage> {
                   fontWeight: FontWeight.bold,
                 )
               )
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget deathAmount(Map data){
-    return Align(
-      alignment: Alignment.center,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 30.0),
-        child: Row(
-          children: <Widget>[
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                text: "${data['deaths']}",
-                style: TextStyle(
-                  color:Colors.white,
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
             ),
           ],
         ),
@@ -259,7 +248,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  String returnKeyOfMap(int index){
+  String returnKeyOfMap(int index){ // return the key of the JSON
     var keys = data.keys.iterator;
     String key = "none";
     for(int i = 0; i < index; i++){
@@ -269,7 +258,7 @@ class _HomePageState extends State<HomePage> {
     return key;
   }
 
-  String addComma(int number){
+  String addComma(int number){ // adding the comma for numbers
     RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
     Function mathFunc = (Match match) => '${match[1]},';
     String result = number.toString().replaceAllMapped(reg, mathFunc);

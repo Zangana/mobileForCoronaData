@@ -159,8 +159,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              title: Text("Next Page",
+              title: Text("گەڕان بەپێی وڵات",
               style: TextStyle(fontSize: 25.0),
+              textDirection: TextDirection.rtl,
               ),
               trailing: Icon(Icons.arrow_forward),
               onTap: (){
@@ -171,8 +172,9 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: Text("about",
-                        style: TextStyle(fontSize: 25.0),
+              title: Text("دەربارە",
+                        style: TextStyle(fontSize: 25.0, ),
+                        textDirection: TextDirection.rtl,
                       ),
               trailing: Icon(Icons.arrow_forward),
               onTap: (){Navigator.pop(context);},

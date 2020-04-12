@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import './secondpage.dart' as secondPage;
+import './about.dart' as about;
 /**
  * @Author Rawaz Rahim
  * @Date: 4/9/2020
@@ -177,7 +178,12 @@ class _HomePageState extends State<HomePage> {
                         textDirection: TextDirection.rtl,
                       ),
               trailing: Icon(Icons.arrow_forward),
-              onTap: (){Navigator.pop(context);},
+              onTap: (){
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (BuildContext context) => new about.AboutScreen()),
+                );
+              },
             )
           ],
         ),

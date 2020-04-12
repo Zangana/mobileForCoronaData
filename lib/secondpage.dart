@@ -6,7 +6,9 @@ import 'dart:convert';
 import 'package:coronadatamobile/connectiontoapi.dart';
 
 /**
- * 
+ * @author: Rawaz Zangana
+ * @date 13/4/2020
+ * This class has cards wigets that have information about the countries. 
  */
 final String urlOfApi = "https://coronavirus-19-api.herokuapp.com/countries";
 
@@ -67,14 +69,13 @@ class _SecondScreen extends State<SecondScreen>{
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextField(
+                    child: TextField( // text filed of the search. 
                       onChanged: (value){
-                        filterSearchResults(value);
+                        filterSearchResults(value); // the method to call. 
                       },
-                      controller: editingController,
-                      decoration: InputDecoration(
-                        labelText: "گەران بەپێی وڵات",
-                        hintText: "تکایە وڵات بە ئینگلیزی داخڵ بکە",
+                      controller: editingController, // a controller to call which is a Texteditor.
+                      decoration: InputDecoration( 
+                        labelText: "تکایە وڵات بە ئینگلیزی داخڵ بکە",
                         prefixIcon: Icon(Icons.search),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(25.0)),
@@ -87,10 +88,6 @@ class _SecondScreen extends State<SecondScreen>{
                       shrinkWrap: true,
                       itemCount: items.length,
                       itemBuilder: (context, index){
-                        // return ListTile(
-                        //   title: Text("${items[index]['country']}"),
-                        //   onTap: (){},
-                        // );
                         return Card(
                             child: Container(
                               decoration: BoxDecoration(
@@ -104,16 +101,6 @@ class _SecondScreen extends State<SecondScreen>{
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
-                                // child: InkWell(
-                                //    onTap: () {
-
-                                //    },
-                                //    child: Text("${items[index]['country']}",
-                                //           style:TextStyle(
-                                //             fontSize: 22.0,
-                                //           ) ,
-                                //        ),
-                                // ),
                                 child: ExpansionTile(
                                   title: Text("${items[index]['country']}",
                                           style:TextStyle(
@@ -121,13 +108,54 @@ class _SecondScreen extends State<SecondScreen>{
                                             color: Colors.white,
                                           ),
                                   ),
+                                  
                                   children: <Widget>[
-                                    Text("ژمارەی توشبوان: " + addComma(items[index]['cases']),
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: Colors.white,
+                                    RichText(
+                                      textDirection: TextDirection.rtl,
+                                      textAlign: TextAlign.right,
+                                      text: TextSpan(
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          color: Colors.white,
+                                        ),
+                                        
+                                        children: [
+                                          TextSpan(text: "ژمارەی توشبووان: " + addComma(items[index]['cases']) + "\t"),
+                                          
+                                          WidgetSpan(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                                              child: Icon(Icons.warning,
+                                                color: Colors.yellow,
+                                                size: 27.0,
+                                              ),
+                                            ),
+                                          ),  
+                                          
+                                          TextSpan(text: "\nژمارەی مردووان: "+ addComma(items[index]['deaths']) + "\t\t"),
+                                          WidgetSpan(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                                              child: Icon(Icons.close,
+                                                color: Colors.red,
+                                                size: 30.0,
+                                              ),
+                                            ),
+                                          ),
+                                          TextSpan(text: "\nژمارەی چاکبوو: " + addComma(items[index]['recovered'])+ "\t\t"),
+                                          WidgetSpan(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                                              child: Icon(Icons.check,
+                                                color: Colors.green,
+                                                size: 30.0,
+                                              ),
+                                            )
+                                          )
+                                        ],
                                       ),
-                                    ),
+                                      
+                                    ),                                  
                                   ],
                                   
                               ),
@@ -149,8 +177,10 @@ class _SecondScreen extends State<SecondScreen>{
       ),
     );
   }
-
-  void filterSearchResults(String query){
+  /**
+   * This method will return a list of the searched for.
+   */
+  void filterSearchResults(String query){ 
     List<dynamic> dummySearchList = List<dynamic>();
     dummySearchList.addAll(data);
     List<dynamic> dummyListData = List<dynamic>();

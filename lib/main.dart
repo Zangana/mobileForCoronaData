@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("دەربارە",
                         style: TextStyle(fontSize: 25.0, ),
                         textDirection: TextDirection.rtl,
-                      ),
+                ),
               trailing: Icon(Icons.arrow_forward),
               onTap: (){
                 Navigator.push(
